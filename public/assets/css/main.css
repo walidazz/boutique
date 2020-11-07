@@ -1,0 +1,12 @@
+.footer-custom {
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 25px;
+  background-color: rgb(132, 132, 132);
+  color: white;
+}
+nav li a {
+  color: white;
+}

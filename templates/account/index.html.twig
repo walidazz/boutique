@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+Bienvenue {{app.user.firstName}} sur votre espace de profil <br>
+
+<div class="my-4">
+    <li>
+        <ul> <a href="{{path('account_password')}}"> Modifier son mot de passe </a> </ul>
+        <ul>Ajouter mes adresses </ul>
+        <ul>Mes commandes </ul>
+
+    </li>
+
+</div>
+{% endblock %}
