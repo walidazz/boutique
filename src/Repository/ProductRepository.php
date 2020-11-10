@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Search;
 use App\Entity\Product;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,6 +36,25 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function findWithSearch(Search $search)
+    {
+        $query = $this->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.category', 'c');
+        if (!empty($search->getCategory())) {
+            $query = $query->andWhere('c.id  IN (:category)')
+                ->setParameter('category', $search->getCategory());
+        }
+
+        if (!empty($search->getString())) {
+            $query = $query->andWhere('p.name LIKE :string')
+                ->setParameter('string', "%{$search->getString()}%");
+        }
+
+        return $query->getQuery()->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Product

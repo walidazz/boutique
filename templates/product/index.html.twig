@@ -5,36 +5,43 @@
 {% block body %}
 
 
-<div class="row">
-    <div-col-md-3>Filtrer</div-col-md-3>
+<div class="row my-4">
+    <div class="col-md-3">
+        <h3>Filtrer </h3>
+
+        {{form(form)}}
+
+
+    </div>
     <div class="col-md-9">
 
 
-        <div class="text-center">
+        <div>
             <h1>Nos produits</h1>
         </div>
-        
-        
-        
+
+
+
         <div class="row mb-4">
             {% for product in products %}
-        
+
             <div class="col-md-4">
                 <div class="product-item text-center">
-                    <img src="{{asset('uploads/' ~ product.illustration)}}" alt="" srcset="">
+                    <img src="{{asset('uploads/' ~ product.illustration)}}" class="img-fluid" alt="" srcset="">
                     <h5>{{product.name}}</h5>
-        
+
                     <span class="product-subtitle"> {{product.subtitle}} </span> <br>
                     <span class="product-price">{{(product.price / 100) | number_format(2, '.', ',')}} €</span> <br>
-                    <a href="{{path('product_show', {'slug': product.slug})}}" class="btn-secondary btn btn-md">Voir le
+                    <a href="{{path('product_show', {'slug': product.slug})}}" class="btn-secondary btn btn-md">Voir
+                        le
                         produit</a>
                 </div>
-        
+
             </div>
             {% endfor %}
-        
+
         </div>
-        
+
 
     </div>
 </div>
