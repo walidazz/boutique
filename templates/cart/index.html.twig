@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+    <h1> Mon panier</h1>
+    <hr>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Produit</th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        {% set sum = null%}
+        {% for product in cart %}
+        <tbody>
+            <tr>
+                <th scope="row">
+                    <img src="{{asset('uploads/' ~ product.product.illustration)}}" width="75"
+                        alt="{{product.product.name}}" srcset="">
+
+
+                    {{product.product.name}}</th>
+                <td>x{{product.quantity}}</td>
+                <td>{{(product.price ) |number_format(2, '.', ',') }} € </td>
+                <td>{{product.total |number_format(2, '.', ',')}}</td>
+
+
+            </tr>
+
+        </tbody>
+
+        {% set sum = sum + product.total %}
+        {% endfor %}
+
+    </table>
+    <div class="text-right">
+
+        Nombre de produit : {{cart |length}}</p>
+        <p>Total de mon panier : {{sum |number_format(2, '.', ',') }} </p>
+        <a href="" class="btn btn-outline-success btn-block"> Payer </a>
+    </div>
+
+{% endblock %}

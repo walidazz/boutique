@@ -4,23 +4,25 @@
 
 {% block body %}
 
-    <div>
-        <h1>Produit</h1>
-    </div>
+<div>
+    <h1>Produit</h1>
+</div>
 
-    <div class="row">
-        <div class="col-md-5">
-            <img src="{{asset('uploads/' ~ product.illustration)}}" class="img-fluid" alt="{{product.name}}" srcset="">
-        </div>
-        <div class="col-md-7 my-auto">
-            <h3>{{product.name}}</h3>
-            <p>{{product.subtitle}}</p>
-            <p>{{(product.price / 100) |number_format(2, '.', ',') }} € </p>
-            <hr>
-            <p>{{product.description |raw}}</p>
-            <a href="#" class="btn btn-warning btn-md"> Ajouter au panier</a>
-        </div>
+<div class="row">
+    <div class="col-md-5">
+        <img src="{{asset('uploads/' ~ product.illustration)}}" class="img-fluid" alt="{{product.name}}" srcset="">
     </div>
+    <div class="col-md-7 my-auto">
+        <h3>{{product.name}}</h3>
+        <p>{{product.subtitle}}</p>
+        <p>{{(product.price / 100) |number_format(2, '.', ',') }} € </p>
+        <hr>
+        <p>{{product.description |raw}}</p>
+        <a href="{{path('add_to_cart', { id : product.id})}}" class="btn btn-warning btn-md"> Ajouter au panier</a>
+
+
+    </div>
+</div>
 
 
 {% endblock %}
