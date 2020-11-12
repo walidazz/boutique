@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AccountAdressController extends AbstractController
 {
+
     /**
      * @Route("/profile/adress", name="account_adress")
      */
@@ -34,9 +35,10 @@ class AccountAdressController extends AbstractController
             $create = false;
         }
         //FIXME:
-        // if ($adress->getUser() != $this->getUser()) {
-        //     return $this->redirectToRoute('account');
-        // }
+
+        if (!$create && $adress->getUser() != $this->getUser()) {
+            return $this->redirectToRoute('account');
+        }
 
         $form = $this->createForm(AdressType::class, $adress);
         $form->handleRequest($request);
