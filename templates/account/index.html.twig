@@ -6,12 +6,12 @@
 Bienvenue {{app.user.firstName}} sur votre espace de profil <br>
 
 <div class="my-4">
-    <li>
-        <ul> <a href="{{path('account_password')}}"> Modifier son mot de passe </a> </ul>
-        <ul>Ajouter mes adresses </ul>
-        <ul>Mes commandes </ul>
+    <ul>
+        <li><a href="{{path('account_password')}}">Modifier son mot de passe </a> </li>
+        <li><a href="{{path('account_adress')}}">Ajouter mes adresses</a> </li>
+        <li>Mes commandes </li>
 
-    </li>
+    </ul>
 
 </div>
 {% endblock %}

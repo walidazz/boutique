@@ -7,6 +7,7 @@ use App\Service\CartService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class CartController extends AbstractController
 {
@@ -15,25 +16,7 @@ class CartController extends AbstractController
      */
     public function index(CartService $cart, ProductRepository $repo): Response
     {
-        // dd($cart->get());
-
-
-
-
-
-        $cartComplete = [];
-
-
-        foreach ($cart->get() as $id => $quantite) {
-            $cartComplete[] = [
-                'product' => $repo->find($id),
-                'quantity' => $quantite,
-                'price' => $repo->find($id)->getPrice(),
-                'total' => $repo->find($id)->getPrice() * $quantite,
-
-            ];
-        }
-
+        $cartComplete = $cart->index();
         return $this->render('cart/index.html.twig', ['cart' => $cartComplete]);
     }
 
@@ -44,11 +27,42 @@ class CartController extends AbstractController
     public function add(CartService $cart, $id): Response
     {
         $cart->add($id);
-        $this->addFlash('success', 'Article ajouté au panier');
-        return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-        ]);
+        //  $this->addFlash('success', 'Article ajouté au panier');
+        return $this->redirectToRoute('products');
     }
+
+
+
+
+    /**
+     * @Route("/cart/add/quantity/{id}", name="cart_add_quantity")
+     */
+    public function addQuantity(CartService $cart, $id): Response
+    {
+        $cart->add($id);
+        return $this->redirectToRoute('my_cart');
+    }
+
+
+
+    /**
+     * @Route("/cart/reduce/quantity/{id}", name="cart_reduce_quantity")
+     */
+    public function reduceQuantity(CartService $cart, $id): Response
+    {
+        $cart->reduce($id);
+        return $this->redirectToRoute('my_cart');
+    }
+
+    /**
+     * @Route("/cart/remove/{id}", name="remove_to_cart")
+     */
+    public function removeToCart(CartService $cart, $id): Response
+    {
+        $cart->removeproduct($id);
+        return $this->redirectToRoute('my_cart');
+    }
+
 
 
 
@@ -58,8 +72,6 @@ class CartController extends AbstractController
     public function remove(CartService $cart): Response
     {
         $cart->remove();
-        return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-        ]);
+        return $this->redirectToRoute('products');
     }
 }
