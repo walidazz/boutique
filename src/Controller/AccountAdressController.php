@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adress;
 use App\Form\AdressType;
+use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class AccountAdressController extends AbstractController
      * @Route("/profile/edit/adress/{id}", name="edit_adress")
      * @Route("/profile/add/adress", name="add_adress")
      */
-    public function edit(Request $request, EntityManagerInterface $manager, Adress $adress = null): Response
+    public function edit(Request $request, EntityManagerInterface $manager, Adress $adress = null, CartService $cart): Response
     {
         if (!$adress) {
             $adress = new Adress();
@@ -50,6 +51,10 @@ class AccountAdressController extends AbstractController
             $manager->flush();
 
             ($create) ?  $this->addFlash('success', 'Adresse ajoutée avec succes !') : $this->addFlash('success', 'Adresse modifiée avec succes !');
+
+            if($cart->get()){
+                return $this->redirectToRoute('my_order');
+            }
             return $this->redirectToRoute('account_adress');
         }
 

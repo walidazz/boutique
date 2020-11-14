@@ -60,7 +60,7 @@
 
     Nombre de produit : {{cart |length}}</p>
     <p>Total de mon panier : {{sum |number_format(2, '.', ',') }} </p>
-    <a href="" class="btn btn-success btn-block"> Payer </a>
+    <a href="{{path('my_order')}}" class="btn btn-success btn-block"> Payer </a>
 </div>
 
 {% else %}

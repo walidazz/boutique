@@ -192,4 +192,9 @@ class Adress
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->firstName . ' ' . $this->lastName . '{br}' . $this->adress . '{br} ' . $this->postal .  ' ' . $this->city . ', ' . $this->country;
+    }
 }

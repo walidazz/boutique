@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Récapitulatif de la commande{% endblock %}
+
+{% block body %}
+
+<p>Je passe ma commande</p>
+
+<div class="row text-center">
+    <div class="col-md-6">
+        {% set formHtml %}
+        {{ form(form)}}
+        {% endset %}
+
+        {{ formHtml|replace({'{br}' : '<br/>'})|raw }}
+    </div>
+    <div class="col-md-6">Récap de ma commande
+        <a href="btn btn-success btn-block"> Payer</a>
+    </div>
+</div>
+{% endblock %}
