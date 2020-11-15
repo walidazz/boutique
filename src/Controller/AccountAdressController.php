@@ -35,7 +35,6 @@ class AccountAdressController extends AbstractController
         } else {
             $create = false;
         }
-        //FIXME:
 
         if (!$create && $adress->getUser() != $this->getUser()) {
             return $this->redirectToRoute('account');
@@ -52,7 +51,7 @@ class AccountAdressController extends AbstractController
 
             ($create) ?  $this->addFlash('success', 'Adresse ajoutée avec succes !') : $this->addFlash('success', 'Adresse modifiée avec succes !');
 
-            if($cart->get()){
+            if ($cart->get()) {
                 return $this->redirectToRoute('my_order');
             }
             return $this->redirectToRoute('account_adress');
@@ -61,8 +60,6 @@ class AccountAdressController extends AbstractController
         return $this->render('/account/adress_form.html.twig', ['form' => $form->createView()]);
     }
 
-
-    //FIXME: regler probleme paramConverteur
 
     /**
      * @Route("/profile/delete/adress/{id}", name="delete_adress")

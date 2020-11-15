@@ -5,28 +5,88 @@
 {% block body %}
 
 
-<div class="mx-auto col-lg-4 col-md-6 col-sm-10 my-4 ">
-    <form method="post">
-        {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+<!-- deuxieme form -->
 
-        {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+<div id="main-wrapper" class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="card border-0 border-black">
+                <div class="card-body p-0">
+                    <div class="row no-gutters">
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="mb-5">
+                                    <h3 class="h4 font-weight-bold text-theme">Login</h3>
+                                </div>
+
+                                <h6 class="h5 mb-0">Welcome back!</h6>
+                                <p class="text-muted mt-2 mb-5">Entrez votre mot de passe ainsi que l'identifiant pour vous connecter.</p>
+
+                                <form method="post">
+                                    {% if error %}
+                                    <div class="alert alert-danger">
+                                        {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                    {% endif %}
+
+                                    {% if app.user %}
+                                    <div class="mb-3">
+                                        You are logged in as {{ app.user.username }}, <a
+                                            href="{{ path('app_logout') }}">Logout</a>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="form-group">
+                                        <label for="inputEmail">Email</label>
+                                        <input type="email" value="{{ last_username }}" class="form-control"
+                                            id="inputEmail">
+                                    </div>
+                                    <div class="form-group mb-5">
+                                        <label for="inputPassword">Mot de passe</label>
+                                        <input type="password" class="form-control" id="inputPassword">
+                                    </div>
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                                    <button type="submit" class="btn btn-theme">Login</button>
+                                    <a href="#l" class="forgot-link float-right text-primary">Forgot password?</a>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 d-none d-lg-inline-block">
+                            <div class="account-block rounded-right">
+                                <div class="overlay rounded-right"></div>
+                                <div class="account-testimonial">
+                                    <h4 class="text-white mb-4">This beautiful theme yours!</h4>
+                                    <p class="lead text-white">"Best investment i made for a long time. Can only
+                                        recommend it for other users."</p>
+                                    <p>- Walid Azzimani</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end card-body -->
+            </div>
+            <!-- end card -->
+
+            <p class="text-muted text-center mt-3 mb-0">Don't have an account? <a href="register.html"
+                    class="text-primary ml-1">register</a></p>
+
+            <!-- end row -->
+
         </div>
-        {% endif %}
+        <!-- end col -->
+    </div>
+    <!-- Row -->
+</div>
 
-        <h1 class="h3 mb-3 font-weight-normal text-center">Connectez-vous !</h1>
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required
-            autofocus>
-        <label for="inputPassword">Mot de passe </label>
-        <input type="password" name="password" id="inputPassword" class="form-control" required>
+<!-- fin deuxieme form -->
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        {#
+{% endblock %}
+
+{#
         Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
         See https://symfony.com/doc/current/security/remember_me.html
 
@@ -36,10 +96,3 @@
             </label>
         </div>
     #}
-
-        <button class="btn btn-md btn-primary" type="submit">
-            Se connecter
-        </button>
-    </form>
-</div>
-{% endblock %}
