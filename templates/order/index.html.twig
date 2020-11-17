@@ -4,9 +4,9 @@
 
 {% block body %}
 
-<p>Je passe ma commande</p>
+<h3 class='my-4'>Je passe ma commande</h3>
 
-<div class="row text-center">
+<div class="row">
     <div class="col-md-6">
         {% set formHtml %}
         {{ form(form)}}
@@ -14,8 +14,29 @@
 
         {{ formHtml|replace({'{br}' : '<br/>'})|raw }}
     </div>
-    <div class="col-md-6">Récap de ma commande
-        <a href="btn btn-success btn-block"> Payer</a>
+
+    <div class="col-md-6">
+
+        <b>Récap de ma commande</b><br />
+        <p>Retrouvez le récapitulatif de vos produits.</p>
+
+        <div class="order-summary">
+            {% for key,product in cart %}
+            <div class="row {% if key > 0 %}mt-2{% endif %}">
+                <div class="col-2">
+                    <img src="/uploads/{{ product.product.illustration }}" alt="{{ product.product.name }}"
+                        height="75px">
+                </div>
+                <div class="col-8 my-auto">
+                    {{ product.product.name }}<br />
+                    <small>{{ product.product.subtitle }}</small>
+                </div>
+                <div class="col-2 my-auto">
+                    x {{ product.quantity }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

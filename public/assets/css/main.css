@@ -1,12 +1,11 @@
 body {
   position: relative;
   min-height: 50vw;
-  background: #f6f9fc!important;
+  /* background: #f6f9fc !important; */
 }
 
-#main-wrapper{
-    margin-top: 1rem;
-
+#main-wrapper {
+  margin-top: 1rem;
 }
 .footer-custom {
   text-align: center;
