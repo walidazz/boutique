@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Order;
 use App\Form\OrderType;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,15 +23,44 @@ class OrderController extends AbstractController
             return $this->redirectToRoute('add_adress');
         }
         $form =    $this->createForm(OrderType::class, null, ['user' => $this->getUser()]);
+
+
+        return $this->render('order/index.html.twig', ['form' => $form->createView(), 'cart' => $cart->index()]);
+    }
+
+
+
+    /**
+     * @Route("/order/recap", name="order_recap")
+     */
+    public function add(CartService $cart, Request $request, EntityManagerInterface $em): Response
+    {
+
+
+        $form =    $this->createForm(OrderType::class, null, ['user' => $this->getUser()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $carrier = $this->form->get('carriers')->getData();
+            $delivery = $this->get('delivery')->getData();
 
-            // TODO: Enregistrer la commande en base de donnée, à faire 
+            $order = new Order();
+            $order->setUser($this->getUser());
+            $order->setCreatedAt(new \DateTime('now'));
+            $order->setCarrierName($carrier->getName())
+                ->setCarrierPrice($carrier->getPrice())
+                ->setDelivery($delivery);
+
+            $em->persist($order);
+            $em->flush();
+
+
+
+            // TODO: Enregistrer la commande en base de donnée, à faire aujourd'hui !
         }
 
 
 
-        return $this->render('order/index.html.twig', ['form' => $form->createView(), 'cart' => $cart->index()]);
+        return $this->render('order/index.html.twig', ['cart' => $cart->index()]);
     }
 }
