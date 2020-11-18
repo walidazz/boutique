@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\OrderDetails;
 use App\Form\OrderType;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ class OrderController extends AbstractController
 
 
     /**
-     * @Route("/order/recap", name="order_recap")
+     * @Route("/order/recap", name="order_recap", methods={"POST"})
      */
     public function add(CartService $cart, Request $request, EntityManagerInterface $em): Response
     {
@@ -41,26 +42,49 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $carrier = $this->form->get('carriers')->getData();
-            $delivery = $this->get('delivery')->getData();
+            $date = new \DateTime();
+            $carriers = $form->get('carriers')->getData()[0];
 
+            $delivery = $form->get('adresses')->getData()[0];
+
+            $delivery_content = $delivery->getFirstname() . ' ' . $delivery->getLastname();
+            $delivery_content .= '<br/>' . $delivery->getPhone();
+
+            if ($delivery->getCompany()) {
+                $delivery_content .= '<br/>' . $delivery->getCompany();
+            }
+
+            $delivery_content .= '<br/>' . $delivery->getAdress();
+            $delivery_content .= '<br/>' . $delivery->getPostal() . ' ' . $delivery->getCity();
+            $delivery_content .= '<br/>' . $delivery->getCountry();
+
+
+            // Enregistrer ma commande Order()
             $order = new Order();
+         //   $reference = $date->format('dmY') . '-' . uniqid();
+            // $order->setReference($reference);
             $order->setUser($this->getUser());
-            $order->setCreatedAt(new \DateTime('now'));
-            $order->setCarrierName($carrier->getName())
-                ->setCarrierPrice($carrier->getPrice())
-                ->setDelivery($delivery);
-
+            $order->setCreatedAt($date);
+            $order->setCarrierName($carriers->getName());
+            $order->setCarrierPrice($carriers->getPrice());
+            $order->setDelivery($delivery_content);
+            $order->setIsPaid(0);
             $em->persist($order);
+
+            foreach ($cart->index() as $product) {
+
+                $orderDetails = new OrderDetails();
+                $orderDetails->setMyOrder($order);
+                $orderDetails->setProduct($product['product']->getName());
+                $orderDetails->setPrice($product['product']->getPrice());
+                $orderDetails->setQuantity($product['quantity']);
+                $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
+                $em->persist($orderDetails);
+            }
             $em->flush();
 
-
-
-            // TODO: Enregistrer la commande en base de donnée, à faire aujourd'hui !
+            return $this->render('order/add.html.twig', ['cart' => $cart->index(), 'carrier' => $carriers, 'delivery' => $delivery_content]);
         }
-
-
-
-        return $this->render('order/index.html.twig', ['cart' => $cart->index()]);
+        return $this->redirectToRoute('my_cart');
     }
 }

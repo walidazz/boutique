@@ -19,7 +19,7 @@ class OrderType extends AbstractType
             ->add('adresses', EntityType::class, [
                 // looks for choices from this entity
                 'class' => Adress::class,
-                'label' => 'Choisissez une adresse de livraison',
+                'label' => false,
                 // uses the User.username property as the visible option string
                 //  'choice_label' => 'username',
                 'required' => true,
