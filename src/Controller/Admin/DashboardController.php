@@ -28,7 +28,6 @@ class DashboardController extends AbstractDashboardController
     }
 
 
-    //#75c5a4 couleur vert
 
     public function configureDashboard(): Dashboard
     {
