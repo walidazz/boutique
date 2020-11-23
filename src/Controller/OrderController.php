@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class OrderController extends AbstractController
@@ -69,6 +70,8 @@ class OrderController extends AbstractController
             //   $reference = $date->format('dmY') . '-' . uniqid();
             // $order->setReference($reference);
             $order->setUser($this->getUser());
+            $reference = $date->format('dmY') . '_' . uniqid();
+            $order->setReference($reference);
             $order->setCreatedAt($date);
             $order->setCarrierName($carriers->getName());
             $order->setCarrierPrice($carriers->getPrice());
@@ -76,7 +79,6 @@ class OrderController extends AbstractController
             $order->setIsPaid(0);
             $em->persist($order);
 
-            $product_for_stripe = [];
             foreach ($cart->index() as $product) {
 
                 $orderDetails = new OrderDetails();
@@ -86,38 +88,14 @@ class OrderController extends AbstractController
                 $orderDetails->setQuantity($product['quantity']);
                 $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
                 $em->persist($orderDetails);
-
-                $product_for_stripe = [
-
-
-                    'price_data' => [
-                        'currency' => 'eur',
-                        'unit_amount' => $product['product']->getPrice(),
-                        'product_data' => [
-                            'name' => $product['product']->getName(),
-                            'images' => [$YOUR_DOMAIN . '/uploads/'  . $product['product']->getIllustration()],
-                        ],
-                    ],
-                    'quantity' => $product['quantity'],
-
-                ];
             }
-            //$em->flush(); //TODO: à enlever apresy
+            $em->flush();
 
+            // dd($this->getParameter('kernel.project_dir'));
 
-
-            $checkout_session = Session::create([
-                'payment_method_types' => ['card'],
-                'line_items' => [
-                    $product_for_stripe
-                ],
-                'mode' => 'payment',
-                'success_url' => $YOUR_DOMAIN . '/success.html',
-                'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
-            ]);
             //dump($checkout_session->id);
             //dd($checkout_session);
-            return $this->render('order/add.html.twig', ['cart' => $cart->index(), 'carrier' => $carriers, 'delivery' => $delivery_content]);
+            return $this->render('order/add.html.twig', ['cart' => $cart->index(), 'carrier' => $carriers, 'delivery' => $delivery_content, 'reference' => $reference]);
         }
         return $this->redirectToRoute('my_cart');
     }
