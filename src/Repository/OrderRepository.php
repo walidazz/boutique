@@ -36,15 +36,15 @@ class OrderRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Order
+
+    public function findSuccessOrders($user)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('o.user = :user')
+            ->andWhere('o.isPaid = 1')
+            ->setParameter('user', $user)
+            ->orderBy('o.createdAt', 'DESC')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

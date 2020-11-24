@@ -79,7 +79,8 @@ class StripeController extends AbstractController
             'cancel_url' => $YOUR_DOMAIN . '/order/error/{CHECKOUT_SESSION_ID}',
         ]);
 
-
+        $order->setStripeSessionId($checkout_session->id);
+        $em->flush();
 
         $response = new JsonResponse(['id' => $checkout_session->id]);
 
