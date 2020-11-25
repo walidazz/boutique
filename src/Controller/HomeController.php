@@ -2,35 +2,34 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
+use App\Entity\Product;
 use App\Service\MailService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
+
     /**
      * @Route("/", name="homepage")
      */
     public function index(): Response
     {
+
+        $products =    $this->em->getRepository(Product::class)->findByIsBest(1);
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
+            'products' => $products,
         ]);
-    }
-
-
-    /**
-     * @Route("/email", name="email")
-     */
-    public function email(MailService $mail, UserRepository $repo): Response
-    {
-        
-
-        $walid = $repo->findOneByEmail('walidazzimani@gmail.com');
-        $mail->send($walid, 'test', 'voici le contenu');
-
-        return $this->render('home/index.html.twig');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Service\CartService;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,7 @@ class OrderValidateController extends AbstractController
     /**
      * @Route("/order/success/{stripeSessionId}", name="order_success")
      */
-    public function index($stripeSessionId, CartService $cartService): Response
+    public function index($stripeSessionId, CartService $cartService, MailService $mail): Response
     {
         /** @var Order */
         $order =      $this->em->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
@@ -33,10 +34,12 @@ class OrderValidateController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
-        if (!$order->getIsPaid()) {
-            $order->setIsPaid(1);
+        if ($order->getState() === 0) {
+            $order->setState(1);
             $this->em->flush();
             $cartService->remove();
+            $mail->send($order->getUser(), 'Votre commande a bien été validé !', 'Merci pour votre commande !');
+
         }
 
 

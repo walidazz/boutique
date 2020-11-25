@@ -10,6 +10,7 @@ use App\Entity\Category;
 use App\Controller\Admin\OrderCrudController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
@@ -44,5 +45,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Catégories', 'fa fa-list', Category::class);
         yield MenuItem::linkToCrud('Produits', 'fa fa-tag', Product::class);
         yield MenuItem::linkToCrud('Transporteurs', 'fa fa-tag', Carrier::class);
+    }
+
+    public function configureAssets(): Assets
+    {
+        return Assets::new()->addCssFile('assets/css/admin.css');
     }
 }
