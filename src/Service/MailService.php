@@ -10,21 +10,21 @@ use Mailjet\Resources;
 class MailService
 {
 
-    private $api_key =  "1f7b3e7376ecfaa6b5536aca3996ee7f";
-    private $api_secret_key = '8bb4f13bf47352a4f5d9ad7465d0e2e6';
-    private $modele_key = '1959225';
+    private $api_key = '7e6ef355980e43affa2d37126f2c1432';
+    private $api_key_secret = 'e5d00b07068104026c9f214469cf32f0';
+    private $modele_key = 1960287;
 
-//FIXME: envoie de mail ne se fait pas 
+    //FIXME: envoie de mail ne se fait pas 
 
     public function send(User $to, string $object, string $content)
     {
-        $mj = new Client($this->api_key, $this->api_secret_key, true, ['version' => 'v3.1']);
+        $mj = new Client($this->api_key, $this->api_key_secret, true, ['version' => 'v3.1']);
         $body = [
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => "hisokath12@gmail.com",
-                        'Name' => "LaBoutique"
+                        'Email' => "walidazzimani@gmail.com",
+                        'Name' => "Walid"
                     ],
                     'To' => [
                         [
@@ -43,5 +43,6 @@ class MailService
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
         $response->success();
+      
     }
 }

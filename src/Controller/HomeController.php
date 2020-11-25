@@ -26,9 +26,10 @@ class HomeController extends AbstractController
      */
     public function email(MailService $mail, UserRepository $repo): Response
     {
+        
+
         $walid = $repo->findOneByEmail('walidazzimani@gmail.com');
         $mail->send($walid, 'test', 'voici le contenu');
-
 
         return $this->render('home/index.html.twig');
     }
