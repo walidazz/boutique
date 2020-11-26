@@ -2,11 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\PreUpdate;
+use Doctrine\ORM\Mapping\PrePersist;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Product
 {
@@ -48,6 +56,11 @@ class Product
     private $price;
 
     /**
+     * @Vich\UploadableField(mapping="article_image", fileNameProperty="illustration")
+     */
+    private $imageFile;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -57,6 +70,16 @@ class Product
      * @ORM\Column(type="boolean")
      */
     private $isBest;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -87,12 +110,12 @@ class Product
         return $this;
     }
 
-    public function getIllustration(): ?string
+    public function getIllustration()
     {
         return $this->illustration;
     }
 
-    public function setIllustration(string $illustration): self
+    public function setIllustration( $illustration)
     {
         $this->illustration = $illustration;
 
@@ -157,5 +180,62 @@ class Product
         $this->isBest = $isBest;
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile($imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+        return $this;
+    }
+
+
+    /**
+     * Permet d'initialiser la date de création !
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function initializeDate()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime('now');
+        } else {
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 }
