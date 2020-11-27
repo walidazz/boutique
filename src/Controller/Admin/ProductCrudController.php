@@ -28,7 +28,7 @@ class ProductCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('name'),
-            ImageField::new('illustration')->setBasePath('/uploads/')->setLabel('Image du produit')->onlyOnIndex(),
+            ImageField::new('illustration')->setBasePath('/uploads/article_image/')->setLabel('Image du produit')->onlyOnIndex(),
 
             TextField::new('subtitle'),
             SlugField::new('slug')->setTargetFieldName('name'),
