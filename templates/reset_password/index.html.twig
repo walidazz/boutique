@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié {% endblock %}
+
+{% block body %}
+
+
+
+<div class="col-lg-6 mx-auto">
+    <div class="p-5">
+        <div class="mb-5">
+            <h3 class="h4 font-weight-bold text-theme">Login</h3>
+        </div>
+
+        <h6 class="h5 mb-0">Welcome back!</h6>
+
+        <form method="POST">
+
+
+            <h1 class="h3 mb-3 font-weight-normal">Merci de rentrer votre adresse mail</h1>
+            <label for="inputEmail">Votre email</label>
+            <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email"
+                required autofocus>
+
+
+            <button class="btn btn-lg btn-info btn-block mt-3" type="submit">
+                Valider
+            </button>
+
+            <!-- <a href="#l" class="forgot-link float-right text-primary">Forgot password?</a> -->
+        </form>
+    </div>
+</div>
+
+{% endblock %}

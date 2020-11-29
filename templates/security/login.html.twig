@@ -20,7 +20,7 @@
                                 </div>
 
                                 <h6 class="h5 mb-0">Welcome back!</h6>
-                   
+
                                 <form method="POST">
                                     {% if error %}
                                     <div class="alert alert-danger">
@@ -48,7 +48,8 @@
                                         Se connecter
                                     </button>
 
-                                    <!-- <a href="#l" class="forgot-link float-right text-primary">Forgot password?</a> -->
+                                    <a href="{{path('reset_password')}}"
+                                        class="forgot-link float-right text-primary">Forgot password?</a>
                                 </form>
                             </div>
                         </div>

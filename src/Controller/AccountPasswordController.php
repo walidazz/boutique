@@ -31,8 +31,6 @@ class AccountPasswordController extends AbstractController
                 $this->addFlash('success', "Votre mot de passe a bien été mise à jour !");
                 return $this->redirectToRoute('account');
             }
-        } else {
-            $this->addFlash('warning', "Mauvais mot de passe actuel ! ");
         }
 
 
