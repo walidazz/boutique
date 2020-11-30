@@ -3,3 +3,4 @@
 3. Systeme de recherche
 4. Redesign des pages
 5. Symfony Encore wepback
+6. Mettre un reCaptcha
