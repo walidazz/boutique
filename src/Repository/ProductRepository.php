@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Search;
 use App\Entity\Product;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -48,23 +49,27 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('category', $search->getCategory());
         }
 
+        // if (!empty($search->getString())) {
+        //     $query = $query->andWhere('p.name LIKE :string')
+        //         ->setParameter('string', "%{$search->getString()}%");
+        // }
         if (!empty($search->getString())) {
-            $query = $query->andWhere('p.name LIKE :string')
-                ->setParameter('string', "%{$search->getString()}%");
+            $query = $query->andWhere('MATCH_AGAINST(p.name,p.subtitle,p.description) AGAINST(:string boolean)>0')
+                ->setParameter('string', $search->getString());
         }
-
-        return $query->getQuery()->getResult();
-    }
-
-    /*
-    public function findOneBySomeField($value): ?Product
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        return $query->getQuery()
+            // ->getResult()
         ;
     }
-    */
+
+
+
+    public function search($mots): Query
+    {
+        return $this->createQueryBuilder('p')
+            ->where('MATCH_AGAINST(p.name,p.subtitle,p.description) AGAINST(:mots boolean)>0')
+            ->setParameter('mots', $mots)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery();
+    }
 }

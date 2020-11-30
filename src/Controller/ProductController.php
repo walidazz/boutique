@@ -6,6 +6,7 @@ use App\Entity\Search;
 use App\Entity\Product;
 use App\Form\SearchType;
 use App\Repository\ProductRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,16 +17,25 @@ class ProductController extends AbstractController
     /**
      * @Route("/nos-produits", name="products")
      */
-    public function index(ProductRepository $repo, Request $request): Response
+    public function index(ProductRepository $repo, Request $request, PaginatorInterface $paginator): Response
     {
         $search = new Search();
         $form = $this->createForm(SearchType::class, $search);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $products =  $repo->findWithSearch($search);
+
+            $products = $paginator->paginate(
+                $repo->findWithSearch($search),
+                $request->query->getInt('page', 1),
+                2
+            );
         } else {
-            $products = $repo->findAll();
+            $products = $paginator->paginate(
+                $repo->findAll(),
+                $request->query->getInt('page', 1),
+                2
+            );
         }
 
         return $this->render('product/index.html.twig', [

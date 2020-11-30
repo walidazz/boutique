@@ -1,4 +1,4 @@
-1. Pagination
+1. Pagination _ ok
 2. Optimisation des images
 3. Systeme de recherche
 4. Redesign des pages

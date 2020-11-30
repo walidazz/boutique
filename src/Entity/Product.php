@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\PrePersist;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\Table(name="product", indexes={@ORM\Index(columns={"name","subtitle","description"},flags={"fulltext"})})
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable
  */

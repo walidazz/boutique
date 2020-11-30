@@ -6,21 +6,15 @@
 
 
 <div class="row my-4">
-    <div class="col-md-3">
-        <h3>Filtrer </h3>
 
-        {{form(form)}}
-
-
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
 
 
         <div>
             <h1>Nos produits</h1>
         </div>
 
-
+        {% if products|length > 0 %}
 
         <div class="row mb-4">
             {% for product in products %}
@@ -42,8 +36,10 @@
             {% endfor %}
 
         </div>
+        {% else %}
+        <div class="mx-auto">Aucun résultat trouvé</div>
 
-
+        {% endif %}
     </div>
 </div>
 
