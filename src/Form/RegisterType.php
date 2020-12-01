@@ -5,12 +5,14 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Beelab\Recaptcha2Bundle\Form\Type\RecaptchaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Beelab\Recaptcha2Bundle\Validator\Constraints\Recaptcha2;
 
 class RegisterType extends AbstractType
 {
@@ -29,6 +31,9 @@ class RegisterType extends AbstractType
                 'required' => true,
                 'first_options'  => ['label' => 'Mot de passe', 'attr' => ['placeholder' => 'Merci de saisir un mot de passe']],
                 'second_options' => ['label' => 'Repetez votre mot de passe', 'attr' => ['placeholder' => 'Merci de répéter votre mot de passe']],
+            ])
+            ->add('captcha', RecaptchaType::class, [
+                'constraints' => new Recaptcha2(),
             ])
             ->add("submit", SubmitType::class, ['label' => "S'inscrire", 'attr' => ['class' => 'btn btn-primary btn-md']]);
     }
