@@ -1,3 +1,21 @@
+@import "~bootstrap/scss/bootstrap";
+
+.action-updatePreparation {
+  margin-right: 10px;
+  color:yellow;
+}
+.action-updateDelivery {
+  margin-right: 10px;
+  color:orange;
+}
+.action-updateOrderDelivered {
+  margin-right: 10px;
+  color:green;
+}
+
+
+//
+
 body {
   position: relative;
   min-height: 50vw;
