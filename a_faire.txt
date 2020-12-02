@@ -1,6 +1,13 @@
 1. Pagination _ ok
-2. Optimisation des images
-3. Systeme de recherche
-4. Redesign des pages
-5. Symfony Encore wepback
-6. Mettre un reCaptcha
+2. Optimisation des images _ok
+3. Systeme de recherche _ok
+
+4. Symfony Encore wepback _ok
+5. Mettre un reCaptcha _ok 
+
+6. Gerer confirmation par email apres l'incription (voter, remember me, ) _ok
+7. Redesign des pages 
+8. Validation formulaire _ok
+9. page modification du profil _ok
+10. refaire le design des templates de mail
+

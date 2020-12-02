@@ -9,3 +9,8 @@ liip_imagine:
                 # use and setup the "fixed" filter
                 thumbnail: { size: [400, 400], mode: outbound }
 
+        miniature:
+            quality: 75
+            filters:
+                # use and setup the "fixed" filter
+                thumbnail: { size: [75, 75], mode: outbound }
