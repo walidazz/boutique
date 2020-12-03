@@ -4,7 +4,7 @@
 
 {% block body %}
 <main role="main">
-    {% include "partials/_carrousel.html.twig" %}
+    {% include "partials/_carrousel.html.twig" with { 'headers' : headers } %}
 </main>
 
 
@@ -13,22 +13,16 @@
 <div class="row">
     {% for product in products %}
     <div class="col-md-3">
-
-        <div class="col-md-5">
-            <img src="{{asset('/uploads/article_image/' ~ product.illustration)}}" class="img-fluid"
-                alt="{{product.name}}" srcset="">
+        <div class="product-item text-center">
+            <a href="{{ path('product_show', { 'slug' : product.slug }) }}">
+                <img src="{{asset('uploads/article_image/' ~ product.illustration) | imagine_filter('card')}}"  alt="{{ product.name }}"
+                    class="img-fluid" height="400"></a>
+            <h5>{{ product.name }}</h5>
+            <span class="product-subtitle">{{ product.subtitle }}</span>
+            <span class="product-price">{{ (product.price / 100)|number_format(2, ',', '.') }} €</span>
+            <a href="{{path('add_to_cart', { id : product.id})}}" class="btn btn-success btn-block"> Ajouter au
+                panier</a>
         </div>
-        <div class="col-md-7 my-auto">
-            <h3>{{product.name}}</h3>
-            <p>{{product.subtitle}}</p>
-            <p>{{(product.price / 100) |number_format(2, '.', ',') }} € </p>
-            <hr>
-            <p>{{product.description |raw}}</p>
-            <a href="{{path('add_to_cart', { id : product.id})}}" class="btn btn-warning btn-md"> Ajouter au panier</a>
-
-
-        </div>
-
     </div>
     {% endfor %}
 </div><!-- /.row -->

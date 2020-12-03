@@ -4,11 +4,13 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Beelab\Recaptcha2Bundle\Form\Type\RecaptchaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Beelab\Recaptcha2Bundle\Validator\Constraints\Recaptcha2;
 
 class ContactType extends AbstractType
 {
@@ -38,6 +40,9 @@ class ContactType extends AbstractType
                 'attr' => [
                     'placeholder' => 'En quoi pouvons-nous vous aider ?'
                 ]
+            ])
+            ->add('captcha', RecaptchaType::class, [
+                'constraints' => new Recaptcha2(),
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer',
