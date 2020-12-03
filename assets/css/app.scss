@@ -104,20 +104,20 @@ nav li a {
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
-  bottom: 3rem;
+  bottom: 1.5rem;
   z-index: 10;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel-item {
-  height: 32rem;
+  height: 25rem;
 }
 .carousel-item > img {
   position: absolute;
   top: 0;
   left: 0;
   min-width: 100%;
-  height: 32rem;
+  height: 25rem;
 }
 
 .account-item {
@@ -400,24 +400,24 @@ nav li a {
 //navbar animate
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700,800");
 @import url("https://fonts.googleapis.com/css?family=Lobster");
-html {
-  font-size: 62.5%;
-}
+// html {
+//   font-size: 70%;
+// }
 
-h1 {
-  margin-bottom: 0.5em;
-  font-size: 3.6rem;
-}
+// h1 {
+//   margin-bottom: 0.5em;
+//   font-size: 3.6rem;
+// }
 
-h2 {
-  margin-bottom: 0.5em;
-  font-size: 2.6rem;
-}
-p {
-  margin-bottom: 0.5em;
-  font-size: 2.2rem;
-  line-height: 1.6;
-}
+// h2 {
+//   margin-bottom: 0.5em;
+//   font-size: 2.6rem;
+// }
+// p {
+//   margin-bottom: 0.5em;
+//   font-size: 2.2rem;
+//   line-height: 1.6;
+// }
 
 .button {
   display: inline-block;
@@ -494,7 +494,7 @@ p {
 }
 .navbar .navbar-brand {
   font-family: "Lobster", cursive;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
 }
 .navbar .navbar-toggler {
   position: relative;
@@ -544,7 +544,7 @@ p {
 .navbar-dark .navbar-nav .nav-link {
   position: relative;
   color: #fff;
-  font-size: 1.6rem;
+  font-size: 1rem;
 }
 .navbar-dark .navbar-nav .nav-link:focus,
 .navbar-dark .navbar-nav .nav-link:hover {
@@ -558,7 +558,7 @@ p {
   position: relative;
   padding: 10px 20px;
   color: #fff;
-  font-size: 1.4rem;
+  font-size: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: color 0.2s ease-in;
 }

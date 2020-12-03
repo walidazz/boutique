@@ -1,86 +1,85 @@
-<header class="header-area overlay"></header>
-<nav class="navbar navbar-expand-md navbar-dark">
-    <div class="container">
-        <a href="{{path('homepage')}}" class="navbar-brand">Walid E-Commerce</a>
+<header class="header-area overlay">
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container">
+            <a href="{{path('homepage')}}" class="navbar-brand">Walid E-Commerce</a>
 
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#main-nav">
-            <span class="menu-icon-bar"></span>
-            <span class="menu-icon-bar"></span>
-            <span class="menu-icon-bar"></span>
-        </button>
+            <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#main-nav">
+                <span class="menu-icon-bar"></span>
+                <span class="menu-icon-bar"></span>
+                <span class="menu-icon-bar"></span>
+            </button>
 
-        <div id="main-nav" class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto">
-                <li><a href="{{path('products')}}" class="nav-item nav-link">Nos produits</a></li>
-                <li class="dropdown">
-                    <a href="#" class="nav-item nav-link" data-toggle="dropdown">Services</a>
-                    <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item">Dropdown Item 1</a>
-                        <a href="#" class="dropdown-item">Dropdown Item 2</a>
-                        <a href="#" class="dropdown-item">Dropdown Item 3</a>
-                    </div>
-                </li>
-           
-                <li><a href="{{path('products')}}" class="nav-item nav-link">Nous contacter</a></li>
-
-                <form class="form-inline  mx-2" action="{{path('search')}}">
-                    <input class="form-control " name="q" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-secondary" type="submit">
-                        Rechercher
-                    </button>
-                </form>
-
-
-
-
-
-                {% if app.user %}
-                <ul class="navbar-nav">
-
-                    {% if  app.session.get('cart') |length > 0  %}
-
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{path('my_cart')}}"> Panier <span class="badge badge-light">
-                                {{ app.session.get('cart') |length }} </span> </a>
-                    </li>
-
-
-
-                    {% endif %}
+            <div id="main-nav" class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li><a href="{{path('products')}}" class="nav-item nav-link">Nos produits</a></li>
                     <li class="dropdown">
-                        <a href="#" class="nav-item nav-link" data-toggle="dropdown">
-                            <div class="row">
-                                <img src="{{asset('uploads/user_image/' ~ app.user.image) | imagine_filter('avatar') }}"
-                                    class="rounded-circle mx-1">
-                                {{app.user.firstName}}
-
-                            </div>
-
-                        </a>
+                        <a href="#" class="nav-item nav-link" data-toggle="dropdown">Services</a>
                         <div class="dropdown-menu">
-                            <a href="{{path('account')}}" class="dropdown-item">Mon profil</a>
+                            <a href="#" class="dropdown-item">Dropdown Item 1</a>
                             <a href="#" class="dropdown-item">Dropdown Item 2</a>
                             <a href="#" class="dropdown-item">Dropdown Item 3</a>
-                            <a href="#" class="dropdown-item">Dropdown Item 4</a>
-                            <a href="{{path('app_logout')}}" class="dropdown-item">Déconnexion</a>
                         </div>
                     </li>
 
+                    <li><a href="{{path('contact')}}" class="nav-item nav-link">Nous contacter</a></li>
+
+                    <form class="form-inline mx-2" action="{{path('search')}}">
+                        <input class="form-control " name="q" placeholder="Search" aria-label="Search" />
+                        <button class="btn btn-secondary" type="submit">
+                            Rechercher
+                        </button>
+                    </form>
+
+
+
+
+
+                    {% if app.user %}
+                    <ul class="navbar-nav">
+
+                        {% if  app.session.get('cart') |length > 0  %}
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{path('my_cart')}}"> Panier <span class="badge badge-light">
+                                    {{ app.session.get('cart') |length }} </span> </a>
+                        </li>
+
+
+
+                        {% endif %}
+                        <li class="dropdown">
+                            <a href="#" class="nav-item nav-link" data-toggle="dropdown">
+                                <div class="row">
+                                    <img src="{{asset('uploads/user_image/' ~ app.user.image) | imagine_filter('avatar') }}"
+                                        class="rounded-circle mx-1">
+                                    {{app.user.firstName}}
+
+                                </div>
+
+                            </a>
+                            <div class="dropdown-menu">
+                                <a href="{{path('account')}}" class="dropdown-item">Mon profil</a>
+                                <a href="#" class="dropdown-item">Dropdown Item 2</a>
+                                <a href="#" class="dropdown-item">Dropdown Item 3</a>
+                                <a href="#" class="dropdown-item">Dropdown Item 4</a>
+                                <a href="{{path('app_logout')}}" class="dropdown-item">Déconnexion</a>
+                            </div>
+                        </li>
+
+
+                    </ul>
+
+
+                    {% else %}
+                    <li><a href="{{path('app_login')}}" class="nav-item nav-link">Connexion</a></li>
+
+
+                    {% endif %}
 
                 </ul>
-
-
-                {% else %}
-                <li><a href="{{path('app_login')}}" class="nav-item nav-link">Connexion</a></li>
-                <li><a href="{{path('register')}}" class="nav-item nav-link">Inscription</a></li>
-
-
-                {% endif %}
-
-            </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 </header>
