@@ -1,22 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top mb-2">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top mb-2">
+    <a href="{{path('homepage')}}" class="navbar-brand">Walid E-Commerce</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{path('register')}}">Home <span class="sr-only">(current)</span></a>
-            </li>
+        <ul class="navbar-nav mx-auto">
+
             <li class="nav-item">
                 <a class="nav-link" href="{{path('products')}}">Nos produits</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                    Nos Services
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{path('account')}}">Mon Profil</a>
@@ -25,20 +23,19 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li>
-        </ul>
-        <form class="form-inline my-1 my-lg-0 mx-2" action="{{path('search')}}">
-            <input class="form-control mr-sm-1" name="q" placeholder="Search" aria-label="Search" />
-            <button class="btn btn-outline-success  my-sm-0" type="submit">
-                Rechercher
-            </button>
-        </form>
+            <li><a href="{{path('contact')}}" class="nav-item nav-link">Nous contacter</a></li>
 
+
+            <form class="form-inline my-1 my-lg-0 mx-2" action="{{path('search')}}">
+                <input class="form-control mr-sm-1" name="q" placeholder="Search" aria-label="Search" />
+                <button class="btn btn-secondary  my-sm-0" type="submit">
+                    Rechercher
+                </button>
+            </form>
+        </ul>
 
         {% if app.user %}
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mx-4">
 
             {% if  app.session.get('cart') |length > 0  %}
 
@@ -51,22 +48,20 @@
 
 
             {% endif %}
-            <li>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{path('app_logout')}}">Deconnexion</a>
-                </div>
-            </li>
+
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Mon compte({{app.user.firstName}})
+                <a class="nav-link dropdown-toggle" href="{{path('account')}}" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <img src="{{asset('uploads/user_image/' ~ app.user.image) | imagine_filter('avatar') }}"
+                        class="rounded-circle mx-1">
+                    {{app.user.firstName}}
+
+
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="{{path('account')}}">Mon profil</a>
                     <a class="dropdown-item" href="#">Another action</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{path('app_logout')}}">Deconnexion</a>
@@ -78,7 +73,6 @@
         {% else %}
 
         <a class="btn btn-md btn-outline-success mx-1" href="{{path('app_login')}}">Connexion</a>
-        <a class="btn btn-md btn-outline-warning mx-1" href="{{path('register')}}">Inscription</a>
 
         {% endif %}
 
@@ -86,16 +80,4 @@
 </nav>
 
 
-
-<div class="container">
-    {% for label,messages in app.flashes %}
-    {% for message in messages %}
-    <div class="mx-auto col-4 text-center">
-        <div class="alert alert-dismissible alert-{{label}}">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{message}}
-        </div>
-    </div>
-    {% endfor %}
-    {% endfor %}
-</div>
+{% include "partials/_notification.html.twig" %}
