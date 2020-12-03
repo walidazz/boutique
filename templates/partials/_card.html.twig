@@ -1,0 +1,18 @@
+<div class="col-md-3 col-sm-6">
+    <!-- Restaurant Item -->
+    <div class="item">
+        <!-- Item's image -->
+        <img class="img-responsive" src="{{asset('uploads/article_image/' ~ product.illustration)  | imagine_filter('card')}}" alt="">
+        <!-- Item details -->
+        <div class="item-dtls">
+            <!-- product title -->
+            <h4><a href="{{path('product_show', {'slug': product.slug})}}">{{product.name}}</a></h4>
+            <!-- price -->
+            <span class="price lblue">{{(product.price / 100) | number_format(2, '.', ',')}} €</span>
+        </div>
+        <!-- add to cart btn -->
+        <div class="ecom bg-lblue">
+            <a class="btn" href="{{path('add_to_cart', { id : product.id})}}">Ajouter au panier</a>
+        </div>
+    </div>
+</div>

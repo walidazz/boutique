@@ -24,6 +24,6 @@ class SearchController extends AbstractController
             $request->query->getInt('page', 1),
             9
         );
-        return $this->render('product/searchpage.html.twig', compact('products'));
+        return $this->render('product/searchpage.html.twig', compact('products', 'search'));
     }
 }

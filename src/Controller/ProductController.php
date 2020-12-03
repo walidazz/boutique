@@ -28,13 +28,13 @@ class ProductController extends AbstractController
             $products = $paginator->paginate(
                 $repo->findWithSearch($search),
                 $request->query->getInt('page', 1),
-                2
+                9
             );
         } else {
             $products = $paginator->paginate(
                 $repo->findAll(),
                 $request->query->getInt('page', 1),
-                2
+                9
             );
         }
 

@@ -8,7 +8,7 @@ liip_imagine:
             quality: 75
             filters:
                 # use and setup the "fixed" filter
-                thumbnail: { size: [75, 75], mode: outbound }
+                thumbnail: { size: [30, 30], mode: outbound }
 
         card:
             quality: 75
