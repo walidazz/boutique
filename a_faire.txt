@@ -13,3 +13,5 @@
 
 11.permettre de télécharger la facture en pdf ?
 
+13. Section commentaire + note ?
+14. Rajouter + de photo 
