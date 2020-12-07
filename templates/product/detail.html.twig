@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{product.name}}{% endblock %}
+
+{% block body %}
+
+<div class="container bootstrap snippets bootdey">
+  <div class="row">
+      <div class="col-sm-6 push-bit">
+          <a href="#" class="gallery-link"><img src="{{asset('uploads/article_image/' ~ product.illustration) | imagine_filter('card')}}" alt="" class="img-responsive push-bit" /></a>
+          <div class="row push-bit">
+
+
+            {% for image in product.pictures  %}
+            <div class="col-xs-4">
+              <a href="#" class="gallery-link"><img src="{{asset('uploads/article_image/' ~ image.url) | imagine_filter('miniature')}}" alt="" class="img-responsive" /></a>
+          </div>
+            {% endfor %}
+          </div>
+      </div>
+      <div class="col-sm-6 push-bit">
+          <div class="clearfix">
+              <div class="pull-right">
+                  <span class="h2"><strong>{{(product.price / 100  + 10) |number_format(2, '.', ',') }} €</strong></span>
+                 
+              </div>
+              <span class="h4">
+                  <strong class="text-success">{{product.name}}</strong><br />
+                  <small>{{product.subtitle}}</small>
+              </span>
+          </div>
+          <hr />
+          {{product.description |raw}}
+          <hr />
+
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
