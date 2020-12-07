@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\PreUpdate;
@@ -82,6 +84,16 @@ class Product
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="product")
+     */
+    private $pictures;
+
+    public function __construct()
+    {
+        $this->pictures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -239,5 +251,35 @@ class Product
         } else {
             $this->updatedAt = new \DateTime('now');
         }
+    }
+
+    /**
+     * @return Collection|Picture[]
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getProduct() === $this) {
+                $picture->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 }

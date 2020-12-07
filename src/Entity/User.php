@@ -88,10 +88,10 @@ class User implements UserInterface, Serializable
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $image = 'standard.png';
+    private $avatar = "standard.png";
 
     /**
-     * @Vich\UploadableField(mapping="user_image", fileNameProperty="image")
+     * @Vich\UploadableField(mapping="user_image", fileNameProperty="avatar")
      */
     private $imageFile;
 
@@ -289,14 +289,14 @@ class User implements UserInterface, Serializable
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
-    public function getImage(): ?string
+    public function getAvatar(): ?string
     {
-        return $this->image;
+        return $this->avatar;
     }
 
-    public function setImage($image)
+    public function setAvatar($avatar)
     {
-        $this->image = $image;
+        $this->avatar = $avatar;
 
         return $this;
     }
@@ -404,7 +404,7 @@ class User implements UserInterface, Serializable
             $this->id,
             $this->email,
             $this->password,
-            $this->image,
+            $this->avatar,
 
             // see section on salt below
             // $this->salt,
@@ -417,7 +417,7 @@ class User implements UserInterface, Serializable
             $this->id,
             $this->email,
             $this->password,
-            $this->image
+            $this->avatar
 
             // see section on salt below
             // $this->salt
