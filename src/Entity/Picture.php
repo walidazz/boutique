@@ -2,11 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PictureRepository;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Annotation\Uploadable;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=PictureRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable
  */
 class Picture
 {
@@ -33,7 +39,12 @@ class Picture
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="pictures")
+     * @Vich\UploadableField(mapping="article_image", fileNameProperty="url")
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="pictures" ) 
      */
     private $product;
 
@@ -47,7 +58,7 @@ class Picture
         return $this->url;
     }
 
-    public function setUrl(string $url): self
+    public function setUrl($url)
     {
         $this->url = $url;
 
@@ -88,5 +99,38 @@ class Picture
         $this->product = $product;
 
         return $this;
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile($imageFile = null)
+    {
+        $this->imageFile = $imageFile;
+
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+        return $this;
+    }
+
+
+    /**
+     * Permet d'initialiser la date de création !
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function initializeDate()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime('now');
+        } else {
+            $this->updatedAt = new \DateTime('now');
+        }
     }
 }

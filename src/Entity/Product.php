@@ -86,7 +86,7 @@ class Product
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="product")
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="product" , cascade={"persist", "remove"})
      */
     private $pictures;
 
@@ -129,7 +129,7 @@ class Product
         return $this->illustration;
     }
 
-    public function setIllustration( $illustration)
+    public function setIllustration($illustration)
     {
         $this->illustration = $illustration;
 
