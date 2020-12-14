@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Service\MailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,10 +16,12 @@ class ContactController extends AbstractController
     /**
      * @Route("/nous-contacter", name="contact")
      */
-    public function index(Request $requestVar, MailService $mail): Response
+    public function index(Request $requestVar, MailService $mail, EntityManagerInterface $em): Response
     {
 
-        $form = $this->createForm(ContactType::class);
+        $contact = new Contact();
+
+        $form = $this->createForm(ContactType::class, $contact);
 
 
         $form->handleRequest($requestVar);
@@ -25,11 +29,9 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
 
+            $em->persist($contact);
+            $em->flush();
             $this->addFlash('success', "Merci de nous avoir contacter, nous vous recontacterons dans les plus bréfs délais ");
-
-            //TODO: mettre en place l'envoie d'email pour les mails de contact 
-
-
             return $this->redirectToRoute('homepage');
         }
 
