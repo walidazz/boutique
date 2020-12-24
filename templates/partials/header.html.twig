@@ -11,18 +11,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{path('products')}}">Nos produits</a>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Nos Services
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{path('account')}}">Mon Profil</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
+
             <li><a href="{{path('contact')}}" class="nav-item nav-link">Nous contacter</a></li>
 
 
@@ -62,7 +51,9 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{path('account')}}">Mon profil</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="{{path('account_adress')}}">Mes addresses </a>
+                    <a class="dropdown-item" href="{{path('account_order')}}">Mes Commandes </a>
+
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{path('app_logout')}}">Deconnexion</a>
                 </div>

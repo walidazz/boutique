@@ -17,24 +17,24 @@
 
 body {
   position: relative;
-  min-height: 50vw;
+  min-height: 30vw!important;
   /* background: #f6f9fc !important; */
 }
 
 #main-wrapper {
   margin-top: 1rem;
 }
+
+
 .footer-custom {
-  display: flex;
-  align-items: center;
+  background-color: rgb(132, 132, 132);
+  position: fixed;
   left: 0;
   bottom: 0;
-  height: 5em;
   width: 100%;
-justify-content: center;
-margin-top: 5vh;
-  background-color: rgb(132, 132, 132);
+
   color: white;
+  text-align: center;
 }
 nav li a {
   color: white;
