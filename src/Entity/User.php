@@ -86,7 +86,7 @@ class User implements UserInterface, Serializable
     private $orders;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255))
      */
     private $avatar = "standard.png";
 

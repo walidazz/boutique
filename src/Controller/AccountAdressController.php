@@ -2,17 +2,44 @@
 
 namespace App\Controller;
 
+use Twig\Environment;
 use App\Entity\Adress;
 use App\Form\AdressType;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class AccountAdressController extends AbstractController
 {
+
+    private Environment $twig;
+
+    private EntityManagerInterface $manager;
+    private CartService $cart;
+    private RouterInterface $router;
+    private FormFactoryInterface $form;
+    private Security $security;
+
+
+
+    public function __construct(Environment $twig, EntityManagerInterface $manager, CartService $cart, RouterInterface $router, FormFactoryInterface $form, Security $security)
+    {
+        $this->twig = $twig;
+        $this->manager = $manager;
+        $this->cart = $cart;
+        $this->router = $router;
+        $this->form = $form;
+        $this->security = $security;
+    }
 
     /**
      * @Route("/profile/adress", name="account_adress")
@@ -20,14 +47,14 @@ class AccountAdressController extends AbstractController
     public function index(): Response
     {
 
-        return $this->render('/account/account_adress.html.twig',);
+        return new Response($this->twig->render('/account/account_adress.html.twig'));
     }
 
     /**
      * @Route("/profile/edit/adress/{id}", name="edit_adress")
      * @Route("/profile/add/adress", name="add_adress")
      */
-    public function edit(Request $request, EntityManagerInterface $manager, Adress $adress = null, CartService $cart): Response
+    public function edit(Adress $adress = null, Request $request, Session $session): Response
     {
         if (!$adress) {
             $adress = new Adress();
@@ -36,41 +63,40 @@ class AccountAdressController extends AbstractController
             $create = false;
         }
 
-        if (!$create && $adress->getUser() != $this->getUser()) {
-            return $this->redirectToRoute('account');
+        if (!$create && $adress->getUser() != $this->security->getUser()) {
+            return  new RedirectResponse($this->router->generate('account'));
         }
 
-        $form = $this->createForm(AdressType::class, $adress);
+        $form = $this->form->create(AdressType::class, $adress);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $adress->setUser($this->getUser());
-            $manager->persist($adress);
-            $manager->flush();
+            $adress->setUser($this->security->getUser());
+            $this->manager->persist($adress);
+            $this->manager->flush();
 
-            ($create) ?  $this->addFlash('success', 'Adresse ajoutée avec succes !') : $this->addFlash('success', 'Adresse modifiée avec succes !');
-
-            if ($cart->get()) {
-                return $this->redirectToRoute('my_order');
+            ($create) ?   $session->getFlashBag()->add('success', 'Adresse ajoutée avec succes !') :  $session->getFlashBag()->add('success', 'Adresse modifiée avec succes !');
+            if ($this->cart->get()) {
+                return new RedirectResponse($this->router->generate('my_order'));
             }
-            return $this->redirectToRoute('account_adress');
+            return new RedirectResponse($this->router->generate('account_adress'));
         }
 
-        return $this->render('/account/adress_form.html.twig', ['form' => $form->createView()]);
+        return new Response($this->twig->render('/account/adress_form.html.twig', ['form' => $form->createView()]));
     }
 
 
     /**
      * @Route("/profile/delete/adress/{id}", name="delete_adress")
      */
-    public function delete(Adress $adress, EntityManagerInterface $em): Response
+    public function delete(Adress $adress, Session $session): Response
     {
-        if ($adress->getUser() == $this->getUser()) {
-            $em->remove($adress);
-            $em->flush();
-            $this->addFlash('success', 'Suppression effectués');
+        if ($adress->getUser() == $this->security->getUser()) {
+            $this->manager->remove($adress);
+            $this->manager->flush();
+            $session->getFlashBag()->add('success', 'Suppression effectuée!');
         }
-        return $this->redirectToRoute('account_adress');
+        return new Response($this->router->generate('account_adress'));
     }
 }
