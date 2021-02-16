@@ -10,17 +10,34 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 
-class AccountController extends AbstractController
+class AccountController
 {
+
+    private $em;
+    private $router;
+    private $twig;
+
+    public function __construct(EntityManagerInterface $em, Environment $twig, RouterInterface $router)
+    {
+        $this->em = $em;
+        $this->twig = $twig;
+        $this->router = $router;
+    }
+
     /**
      * @Route("/profile", name="account")
      */
     public function index(): Response
     {
-        return $this->render('account/index.html.twig', [
+        return new Response($this->twig->render('account/index.html.twig', [
             'controller_name' => 'AccountController',
-        ]);
+        ]));
     }
 
 
@@ -28,21 +45,20 @@ class AccountController extends AbstractController
      * @Route("/profile/edit/{id}", name="profile_edit")
      * @IsGranted("ROLE_USER")
      */
-    public function profile(User $user, Request $request, EntityManagerInterface $em)
+    public function profile(User $user, Request $request, FormFactoryInterface $formfactory, Session $session)
     {
-        $form = $this->createForm(UserProfileType::class, $user);
+        $form = $formfactory->create(UserProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($user);
-            $em->flush();
-            $this->addFlash('success', 'Modification effectué avec succès !');
-            return $this->redirectToRoute('account');
-            # code...
+            $this->em->persist($user);
+            $this->em->flush();
+            $session->getFlashBag()->add('success', 'Modification effectué avec succès !');
+            return new RedirectResponse($this->router->generate('account'));
         }
 
-        return $this->render('account/profileType.html.twig', [
+        return new Response($this->twig->render('account/profileType.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ]));
     }
 }

@@ -1,17 +1,7 @@
-1. Pagination _ ok
-2. Optimisation des images _ok
-3. Systeme de recherche _ok
+Redesign des animations produits
+Retoucher le carrousel page d'accueil car texte illisible
+refaire le design des templates de mail
+permettre de télécharger la facture en pdf ?
+rajouter plus de photo 
 
-4. Symfony Encore wepback _ok
-5. Mettre un reCaptcha _ok 
-
-6. Gerer confirmation par email apres l'incription (voter, remember me, ) _ok
-7. Redesign des pages 
-8. Validation formulaire _ok
-9. page modification du profil _ok
-10. refaire le design des templates de mail
-
-11.permettre de télécharger la facture en pdf ?
-
-13. Section commentaire + note ?
-14. Rajouter + de photo 
+php bin/console doctrine:schema:update --dump-sql --force

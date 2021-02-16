@@ -16,7 +16,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/nous-contacter", name="contact")
      */
-    public function index(Request $requestVar, MailService $mail, EntityManagerInterface $em): Response
+    public function index(Request $requestVar, EntityManagerInterface $em): Response
     {
 
         $contact = new Contact();
