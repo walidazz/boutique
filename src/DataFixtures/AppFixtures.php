@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Adress;
+use App\Entity\Carrier;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\Header;
@@ -41,7 +43,24 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
 
+        $adress = new Adress();
+        $adress->setAdress('14 route de bezouce')
+            ->setCity('Meynes')
+            ->setCountry('France')
+            ->setFirstName('Walid')
+            ->setLastName('Azzimani')
+            ->setName('Domicile')
+            ->setCompany('Societe privée')
+            ->setPostal('30840')
+            ->setUser($admin);
 
+        $manager->persist($adress);
+
+        $carrier = new Carrier();
+        $carrier->setName('Colissimo')
+            ->setDescription('Rapide et fiable')
+            ->setPrice(4.99);
+        $manager->persist($carrier);
 
 
         $category = new Category();

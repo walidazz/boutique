@@ -5,3 +5,8 @@ permettre de télécharger la facture en pdf ?
 rajouter plus de photo 
 
 php bin/console doctrine:schema:update --dump-sql --force
+
+
+à fixer
+
+label adresse à mettre en anglais
