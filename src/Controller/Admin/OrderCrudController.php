@@ -2,9 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Order;
 use App\Service\MailService;
+use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -15,9 +19,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -25,13 +29,15 @@ class OrderCrudController extends AbstractCrudController
     private $em;
     private $crudUrlGenerator;
     private $mail;
+    private $pdf;
 
 
-    public function __construct(EntityManagerInterface $em, CrudUrlGenerator $crudUrlGenerator, MailService $mail)
+    public function __construct(EntityManagerInterface $em, CrudUrlGenerator $crudUrlGenerator, MailService $mail, PdfService $pdf)
     {
         $this->em = $em;
         $this->crudUrlGenerator = $crudUrlGenerator;
         $this->mail = $mail;
+        $this->pdf = $pdf;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -39,12 +45,14 @@ class OrderCrudController extends AbstractCrudController
         $updatePreparation = Action::new('updatePreparation', 'Préparation en cours', 'fas fa-dolly')->linkToCrudAction('updatePreparation');
         $updateDelivery = Action::new('updateDelivery', 'Livraison en cours', 'fas fa-shipping-fast')->linkToCrudAction('updateDelivery');
         $updateOrderDelivered = Action::new('updateOrderDelivered', 'Livrée', 'fas fa-flag-checkered ')->linkToCrudAction('updateOrderDelivered');
+        $invoiceDownload = Action::new('invoiceDownload', 'Télécharger une facture', 'fas fa-cash-register ')->linkToCrudAction('invoiceDownload');
 
         return $actions
             ->add(Crud::PAGE_INDEX, 'detail')
             ->add('detail', $updatePreparation)
             ->add('detail', $updateDelivery)
-            ->add('detail', $updateOrderDelivered);
+            ->add('detail', $updateOrderDelivered)
+            ->add('detail', $invoiceDownload);
     }
 
 
@@ -93,7 +101,11 @@ class OrderCrudController extends AbstractCrudController
         return $this->redirect($url);
     }
 
-
+    public function invoiceDownload()
+    {
+        $this->pdf->generatePdf('pdf/pdf.html.twig', []);
+        return new Response("The PDF file has been succesfully generated !");
+    }
     public function updateDelivery(AdminContext $context)
     {
         /** @var Order */

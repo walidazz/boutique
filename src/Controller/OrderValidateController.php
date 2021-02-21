@@ -38,8 +38,9 @@ class OrderValidateController extends AbstractController
             $order->setState(1);
             $this->em->flush();
             $cartService->remove();
-            $mail->send($order->getUser(), 'Votre commande a bien été validé !', 'Merci pour votre commande !');
 
+
+            $mail->send($order->getUser(), 'Votre commande a bien été validé !', 'Merci pour votre commande !');
         }
 
 

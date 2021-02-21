@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConverterController!{% endblock %}
+{% block stylesheets %}
+<link href="{{ absolute_url(asset('/css/main.css')) }}" rel="stylesheet" type="text/css">
+
+
+
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+<div class="text-center">
+    <h1 class="text-success text-primary"> ça marche ? :)</h1>
+</div>
+
+
+
+
+<img width="200" src="{{ absolute_url(asset('/images/image.jpg')) }}" alt="image">
+{% endblock %}
