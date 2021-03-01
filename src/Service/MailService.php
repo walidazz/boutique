@@ -43,6 +43,5 @@ class MailService
         ];
         $response = $mj->post(Resources::$Email, ['body' => $body]);
         $response->success();
-      
     }
 }
