@@ -121,7 +121,6 @@ class User implements UserInterface, Serializable
         $this->orders = new ArrayCollection();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -149,16 +148,9 @@ class User implements UserInterface, Serializable
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
     public function setRoles(array $roles): self
@@ -168,12 +160,9 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -294,7 +283,7 @@ class User implements UserInterface, Serializable
         return $this->avatar;
     }
 
-    public function setAvatar($avatar)
+    public function setAvatar(string $avatar): self
     {
         $this->avatar = $avatar;
 

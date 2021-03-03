@@ -58,7 +58,7 @@ class Picture
         return $this->url;
     }
 
-    public function setUrl($url)
+    public function setUrl(string $url): self
     {
         $this->url = $url;
 

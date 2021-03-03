@@ -176,8 +176,6 @@ class Order
         return $this;
     }
 
-
-
     public function getReference(): ?string
     {
         return $this->reference;

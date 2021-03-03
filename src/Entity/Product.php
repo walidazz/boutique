@@ -124,12 +124,12 @@ class Product
         return $this;
     }
 
-    public function getIllustration()
+    public function getIllustration(): ?string
     {
         return $this->illustration;
     }
 
-    public function setIllustration($illustration)
+    public function setIllustration(string $illustration): self
     {
         $this->illustration = $illustration;
 
