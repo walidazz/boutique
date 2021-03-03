@@ -35,9 +35,7 @@ class AccountController
      */
     public function index(): Response
     {
-        return new Response($this->twig->render('account/index.html.twig', [
-            'controller_name' => 'AccountController',
-        ]));
+        return new Response($this->twig->render('account/index.html.twig'));
     }
 
 
