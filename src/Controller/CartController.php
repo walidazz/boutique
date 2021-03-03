@@ -16,6 +16,10 @@ class CartController extends AbstractController
      */
     public function index(CartService $cart, ProductRepository $repo): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $cartComplete = $cart->index();
         return $this->render('cart/index.html.twig', ['cart' => $cartComplete]);
     }
@@ -26,6 +30,9 @@ class CartController extends AbstractController
      */
     public function add(CartService $cart, $id): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $cart->add($id);
         //  $this->addFlash('success', 'Article ajouté au panier');
         return $this->redirectToRoute('products');
@@ -39,6 +46,9 @@ class CartController extends AbstractController
      */
     public function addQuantity(CartService $cart, $id): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $cart->add($id);
         return $this->redirectToRoute('my_cart');
     }
@@ -50,6 +60,11 @@ class CartController extends AbstractController
      */
     public function reduceQuantity(CartService $cart, $id): Response
     {
+
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $cart->reduce($id);
         return $this->redirectToRoute('my_cart');
     }
@@ -59,6 +74,10 @@ class CartController extends AbstractController
      */
     public function removeToCart(CartService $cart, $id): Response
     {
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
         $cart->removeproduct($id);
         return $this->redirectToRoute('my_cart');
     }
@@ -71,6 +90,11 @@ class CartController extends AbstractController
      */
     public function remove(CartService $cart): Response
     {
+
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_login');
+        }
+
         $cart->remove();
         return $this->redirectToRoute('products');
     }
