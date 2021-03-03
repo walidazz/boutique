@@ -11,18 +11,8 @@
 <h3>Nos meilleures ventes</h3>
 <p>Découvrez les articles les plus vendus.</p>
 
-<div class="shop-items">
-    <div class="container-fluid">
-        <div class="row">
-            {% for product in products %}
-            
-            {% include "partials/_card.html.twig" with { 'product' : product} %}
+{% include "partials/_card2.html.twig" with { 'products' : products} %}
 
-            {% endfor %}
-        </div>
-
-    </div>
-</div><!-- /.row -->
 
 
 <!-- START THE FEATURETTES -->

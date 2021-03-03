@@ -4,11 +4,8 @@ Envoie de mail avec facture en piece jointe
 permettre de télécharger la facture en pdf ?
 
 
-Redesign des animations produits
-Retoucher le carrousel page d'accueil car texte illisible
 refaire le design des templates de mail
 
-rajouter plus de photo 
 
 php bin/console doctrine:schema:update --dump-sql --force
 

@@ -1,37 +1,25 @@
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        {% for key,header in headers %}
-        <li data-target="#myCarousel" data-slide-to="{{ key }}" {% if key == 0 %}class="active" {% endif %}></li>
+
+<!-- carousel 2 -->
+
+<div id="myCarousel" class="carousel carousel-dark carousel-fade slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        {% for key,header in headers %} 
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="{{ key }}" {% if key==0 %}class="active" aria-current="true" {%
+            endif %}  aria-label="Slide {{ key }}"></button>
         {% endfor %}
-    </ol>
 
-
-
-
+    </div>
     <div class="carousel-inner">
         {% for key,header in headers %}
-
-
-
-        <div class="carousel-item {% if key == 0 %}active{% endif %}"
-            style="background: url('{{asset('uploads/header_image/' ~ header.image) }}');background-size:cover;">
-            <div class="container">
-                <div class="carousel-caption text-left">
-                    <h1 class="text-white">{{ header.title }}</h1>
-                    <p class="text-white">{{ header.content }}</p>
-                    <p><a class="btn btn-md btn-info" href="{{ header.btnUrl }}" role="button">{{ header.btnTitle }}</a>
-                    </p>
-                </div>
+        <div class="carousel-item {% if key == 0 %}active{% endif %}" data-bs-interval="5000">
+            <img src="{{asset('uploads/header_image/' ~ header.image) }}" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>{{ header.title }}</h5>
+                <p>{{ header.content }}</p>
+                <a class="btn btn-md btn-info" href="{{ header.btnUrl }}" role="button">{{ header.btnTitle }}</a>
             </div>
         </div>
         {% endfor %}
     </div>
-    <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+
 </div>
