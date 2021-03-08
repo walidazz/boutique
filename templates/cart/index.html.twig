@@ -21,11 +21,12 @@
     <tbody>
         <tr>
             <th scope="row">
-                <img src="{{asset('uploads/' ~ product.product.illustration)}}" width="75"
-                    alt="{{product.product.name}}" srcset="">
+                <img src="{{asset('uploads/article_image/' ~ product.product.illustration)  | imagine_filter('miniature')}}"
+                    width="75" alt="{{product.product.name}}" srcset="">
 
 
-                {{product.product.name}}</th>
+                {{product.product.name}}
+            </th>
             <td>
                 <a href="{{path('cart_reduce_quantity', { id : product.product.id})}}"><i
                         class="fas fa-minus-circle"></i></a>
@@ -40,7 +41,7 @@
 
             </td>
             <td>{{(product.price ) |number_format(2, '.', ',') }} € </td>
-            <td>{{product.total |number_format(2, '.', ',')}}
+            <td>{{product.total |number_format(2, '.', ',') }}
                 <a href="{{path('remove_to_cart' , { id : product.product.id})}}"><i
                         class="fas fa-trash float-right"></i>
                 </a>

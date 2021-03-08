@@ -12,7 +12,7 @@ class MailService
 
     private $api_key = '7e6ef355980e43affa2d37126f2c1432';
     private $api_key_secret = 'e5d00b07068104026c9f214469cf32f0';
-    private $modele_key = 1960287;
+    const  template_notification = 1960287;
 
     //FIXME: envoie de mail ne se fait pas 
 
@@ -32,7 +32,7 @@ class MailService
                             'Name' => $to->getFirstName() . ' ' . $to->getLastName()
                         ]
                     ],
-                    'TemplateID' => $this->modele_key,
+                    'TemplateID' => self::template_notification,
                     'TemplateLanguage' => true,
                     'Subject' => $object,
                     'Variables' => [
